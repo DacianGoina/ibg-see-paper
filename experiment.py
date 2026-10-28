@@ -69,7 +69,7 @@ def compute_for_exp_tuned_data_model(X, y, model_name, no_of_iterations, exponen
     x_train, y_train, x_test, y_test = split_data_for_train_test(X, y, shuffle_seed = i, training_percentage = 0.8)
     x_train, training_output_col_i = training_at_dataset_level(x_train,intermediate_range=(0,1), exponents_values_v = exponents_val)
     x_test = testing_at_dataset_level(x_test, training_output_col_i, intermediate_range=(0,1), exponents_values_v = exponents_val)
-    y_scores = train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj)
+    y_pred, y_scores = train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj)
 
     for positive_label in [MINORITY_CLASS_LABEL, MAJORITY_CLASS_LABEL]:
       auroc_value = compute_auroc_score(y_test, y_scores)
@@ -107,7 +107,7 @@ def compute_for_preprocessing_data_model(X, y, model_name, no_of_iterations, pre
     X_copy = preprocess_data_by_method_name(X_copy, preprocessing_method_name)
     model_name_val2, model_obj = get_model_by_name(model_name, random_state_val = i)
     x_train, y_train, x_test, y_test = split_data_for_train_test(X_copy, y, shuffle_seed = i, training_percentage = 0.8)
-    y_scores = train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj)
+    y_pred, y_scores = train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj)
 
     for positive_label in [MINORITY_CLASS_LABEL, MAJORITY_CLASS_LABEL]:
       auroc_value = compute_auroc_score(y_test, y_scores)

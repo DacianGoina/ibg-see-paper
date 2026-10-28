@@ -1,6 +1,8 @@
 from sklearn.metrics import roc_auc_score, average_precision_score
 import numpy as np
 
+from constants import IF_CONST, LOF_CONST, SGD_OC_SVM_CONST, ELL_ENV_CONST
+
 
 def train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj):
     """
@@ -30,9 +32,15 @@ def train_evaluate_model(x_train, x_test, y_train, y_test, model_name, model_obj
 
 
     # Predictions
+    y_pred = model_obj.predict(x_test)
     y_pred_scores = model_obj.decision_function(x_test)
 
-    return y_pred_scores
+    # here change labels based on model format; 1 for anomaly, 0 for normal ones
+    if model_name in [IF_CONST, LOF_CONST, SGD_OC_SVM_CONST, ELL_ENV_CONST]:
+      y_pred[y_pred == 1] = 0  # replace normals (1) with 0
+      y_pred[y_pred == -1] = 1  # replace anomalies (-1) with 1
+
+    return y_pred, y_pred_scores
 
 
 def compute_auroc_score(y_true, y_scores):

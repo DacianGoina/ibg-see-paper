@@ -33,3 +33,5 @@ QUANTILE_TRANSFORMATION_CONST="QUANTILE"
 # !!! let consider the minority class with 1
 MINORITY_CLASS_LABEL = 1
 MAJORITY_CLASS_LABEL = 0
+
+
